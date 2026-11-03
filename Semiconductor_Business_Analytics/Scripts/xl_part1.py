@@ -28,46 +28,52 @@ SUB_REPORTED_TOTAL = [7.35, 6.60, 8.40, 4.60, 7.15, 5.95, 5.35]
 def build_raw(ws):
     title(ws, "RAW DATA - Research-derived dataset (no separate assignment dataset was supplied)",
           "Source: 'Renesas Industrial Strategy Analysis' research report (research cutoff 2 Nov 2026). Values are as presented in the report; NOT independently re-verified.", 9)
-    widths(ws, [8, 54, 14, 14, 14, 16, 18, 30, 62])
+    widths(ws, [8, 54, 14, 14, 14, 14, 14, 16, 18, 30, 62])
     ws.freeze_panes = "C5"
     text_rows(ws, 3, ["IMPORTANT: The original assignment dataset was NOT provided. This sheet is a research-derived dataset. 'Reported*' = figure as cited by the research report from Renesas filings (not re-checked). "
-                      "No synthetic observations are stored on this sheet; analyst assumptions live on the analysis sheets (yellow cells)."], 1)
+                      "No synthetic observations are stored on this sheet; analyst assumptions live on the analysis sheets (yellow cells). Includes newly integrated FY2021 and FY2022 actuals."], 1)
     ws["A3"].font = Font(name=FONT, size=10, bold=True, color=DRED)
-    section(ws, 5, "TABLE 1 - Segment financials, JPY billion (report section 7, PDF p.6-7; section 4 table, PDF p.3)", 9)
-    header(ws, 6, ["ID", "Metric", "FY2023 (A)", "FY2024 (A)", "FY2025 (A)", "FY2026E (annualised est.)", "Unit", "Data type", "Source"])
-    t1 = [("T1.1", "Total consolidated revenue", [1469.4, 1348.4, 1321.2, 1510.4], "JPY bn", "bn"),
-          ("T1.2", "Automotive segment revenue", [702.8, 710.0, 639.7, 730.2], "JPY bn", "bn"),
-          ("T1.3", "Industrial/Infrastructure/IoT (I&I) segment revenue", [764.7, 636.8, 671.8, 772.0], "JPY bn", "bn"),
-          ("T1.4", "Non-GAAP gross margin (consolidated)", [.570, .561, .576, .581], "%", "pct"),
-          ("T1.5", "Non-GAAP operating margin (consolidated)", [.341, .295, .293, .327], "%", "pct")]
+    section(ws, 5, "TABLE 1 - Segment financials, JPY billion (report section 7, PDF p.6-7; section 4 table, PDF p.3; includes FY2021-FY2022)", 11)
+    header(ws, 6, ["ID", "Metric", "FY2021 (A)", "FY2022 (A)", "FY2023 (A)", "FY2024 (A)", "FY2025 (A)", "FY2026E (annualised est.)", "Unit", "Data type", "Source"])
+    t1 = [("T1.1", "Total consolidated revenue", [994.2, 1503.8, 1469.4, 1348.4, 1321.2, 1510.4], "JPY bn", "bn"),
+          ("T1.2", "Automotive segment revenue", [462.5, 649.0, 702.8, 710.0, 639.7, 730.2], "JPY bn", "bn"),
+          ("T1.3", "Industrial/Infrastructure/IoT (I&I) segment revenue", [515.5, 845.9, 764.7, 636.8, 671.8, 772.0], "JPY bn", "bn"),
+          ("T1.4", "Non-GAAP gross margin (consolidated)", [.532, .574, .570, .561, .576, .581], "%", "pct"),
+          ("T1.5", "Non-GAAP operating margin (consolidated)", [.298, .372, .341, .295, .293, .327], "%", "pct")]
     for i, (id_, m, vals, u, f) in enumerate(t1):
         r = 7 + i
         W(ws, f"A{r}", id_, "grey"); W(ws, f"B{r}", m, "label")
         for j, v in enumerate(vals):
             W(ws, f"{CL(3 + j)}{r}", v, "src", f)
-        W(ws, f"G{r}", u, "grey")
-        W(ws, f"H{r}", "Reported* (FY2023-25); Annualised estimate (FY2026E)", "grey", wrap=True)
-        W(ws, f"I{r}", "Research report s.7 table; refs [5],[31],[32],[33]", "grey")
+        W(ws, f"I{r}", u, "grey")
+        W(ws, f"J{r}", "Reported* (FY2021-25); Annualised estimate (FY2026E)", "grey", wrap=True)
+        W(ws, f"K{r}", "Research report s.7 table; refs [16],[33],[34],[35]", "grey")
         ws.row_dimensions[r].height = 28
     R["raw_rows"] = dict(total=7, auto=8, ii=9, gm=10, om=11, other=16)
     text_rows(ws, 12, ["FY2026E is an ANNUALISED ESTIMATE derived by the report from 1H-2026 momentum and adjusted for the planned Timing divestment - it is not a reported full-year figure."])
     ws["A12"].font = KIND["note"]["font"]
-    section(ws, 14, "CALCULATED FIELDS (derived by formula - NOT source data)", 9)
-    header(ws, 15, ["ID", "Metric", "FY2023 (A)", "FY2024 (A)", "FY2025 (A)", "FY2026E (est.)", "Unit", "Data type", "Method"])
+    section(ws, 14, "CALCULATED FIELDS (derived by formula - NOT source data)", 11)
+    header(ws, 15, ["ID", "Metric", "FY2021 (A)", "FY2022 (A)", "FY2023 (A)", "FY2024 (A)", "FY2025 (A)", "FY2026E (est.)", "Unit", "Data type", "Method"])
     W(ws, "A16", "C1.1", "grey"); W(ws, "B16", "Other / unallocated (Total - Automotive - I&I)", "label")
     W(ws, "A17", "C1.2", "grey"); W(ws, "B17", "Other as % of total revenue", "label")
-    for j in range(4):
+    for j in range(6):
         c = CL(3 + j)
         W(ws, f"{c}16", f"={c}7-{c}8-{c}9", "calc", "bn")
         W(ws, f"{c}17", f"={c}16/{c}7", "calc", "pct")
     for r, u in ((16, "JPY bn"), (17, "%")):
-        W(ws, f"G{r}", u, "grey"); W(ws, f"H{r}", "Calculated", "grey")
-    W(ws, "I16", "Residual reconciling item; the report does not itemise it", "grey")
-    W(ws, "I17", "Other / Total", "grey")
+        W(ws, f"I{r}", u, "grey"); W(ws, f"J{r}", "Calculated", "grey")
+    W(ws, "K16", "Residual reconciling item; the report does not itemise it", "grey")
+    W(ws, "K17", "Other / Total", "grey")
 
     section(ws, 19, "TABLE 2 - Key values (report sections 4, 6-21). Type: Reported* / Report estimate / Forecast (report) / Third-party market estimate (via report)", 9)
     header(ws, 20, ["ID", "Metric", "Value", "Unit", "Period", "Data type", "Report section / PDF page", "Works-cited ref", "Notes"])
     kv = [  # id, metric, value, unit, period, dtype, section, ref, note, fmt
+        ("K00a", "I&I segment revenue FY2021", 515.5, "JPY bn", "FY2021", "Reported*", "s.4/s.7, PDF p.3,6", "[16]", "Pre-supercycle baseline", "bn"),
+        ("K00b", "I&I segment revenue FY2022", 845.9, "JPY bn", "FY2022", "Reported*", "s.4/s.7, PDF p.3,6", "[16]", "Supercycle peak (+64.1% YoY)", "bn"),
+        ("K00c", "Non-GAAP gross margin FY2021", .532, "%", "FY2021", "Reported*", "s.7/s.9, PDF p.7,8", "[16]", "Baseline before PMIC/Altium mix expansion", "pct"),
+        ("K00d", "Non-GAAP gross margin FY2022", .574, "%", "FY2022", "Reported*", "s.7/s.9, PDF p.7,8", "[16]", "Peak cycle gross margin", "pct"),
+        ("K00e", "Non-GAAP operating margin FY2021", .298, "%", "FY2021", "Reported*", "s.7, PDF p.7", "[16]", "Baseline operating margin", "pct"),
+        ("K00f", "Non-GAAP operating margin FY2022", .372, "%", "FY2022", "Reported*", "s.7, PDF p.7", "[16]", "Record supercycle operating margin", "pct"),
         ("K01", "I&I non-GAAP gross margin", .606, "%", "FY2025", "Reported*", "s.9, PDF p.8", "[39]", "Segment-level; definitions not verified vs filings", "pct"),
         ("K02", "I&I non-GAAP operating margin", .272, "%", "FY2025", "Reported*", "s.9, PDF p.8", "[39]", "Lower than consolidated 29.3% (see Data_Validation F-04)", "pct"),
         ("K03", "Pure Industrial share of I&I - LOW", .40, "%", "n/a", "Report estimate", "s.4, PDF p.3", "-", "Analyst-style assumption by report; NOT a reported figure", "pct"),
@@ -171,27 +177,27 @@ def rawy(key, yi):
 # --------------------------------------------------------------------------------------------- REVENUE
 def build_revenue(ws):
     title(ws, "REVENUE ANALYSIS - Automotive | Industrial | Consumer | IoT (JPY billion)",
-          "Automotive & I&I are REPORTED segments. Industrial = ESTIMATE (42.5% of I&I). Consumer/IoT = ILLUSTRATIVE split of the non-industrial remainder (no source). FY2026E = annualised estimate.", 9)
-    widths(ws, [50, 14, 14, 14, 14, 16, 18, 16, 62])
+          "Automotive & I&I are REPORTED segments (FY2021-FY2025 actuals). Industrial = ESTIMATE (42.5% of I&I). Consumer/IoT = ILLUSTRATIVE split of non-industrial remainder. FY2026E = annualised estimate.", 12)
+    widths(ws, [46, 13, 13, 13, 13, 13, 14, 16, 16, 16, 15, 60])
     ws.freeze_panes = "B4"
-    section(ws, 4, "1. Revenue by application (JPY bn)", 9)
-    header(ws, 5, ["Application"] + YEARS + ["CAGR FY23-25 (actuals only)", "CAGR FY23-26E (incl. estimate)", "Change FY25 -> FY26E", "Data type / basis"], h=42)
+    section(ws, 4, "1. Revenue by application (JPY bn) - FY2021 to FY2026E", 12)
+    header(ws, 5, ["Application"] + YEARS + ["CAGR FY21-25 (actuals)", "CAGR FY21-26E (incl. est.)", "CAGR FY23-25 (recent cycle)", "Change FY21 -> FY25", "Data type / basis"], h=42)
     labels = [("Automotive", "Reported segment (Raw_Data T1.2)"),
-              ("Industrial (ESTIMATE)", "ESTIMATE: I&I x pure-Industrial share (FY23-25 share held at FY2025 point estimate - assumption); FY2026E = report estimate K09"),
+              ("Industrial (ESTIMATE)", "ESTIMATE: I&I x pure-Industrial share (FY21-25 share held at FY2025 point estimate - assumption); FY2026E = report estimate K09"),
               ("Consumer (ILLUSTRATIVE)", "ILLUSTRATIVE: (I&I - Industrial) x Consumer share assumption B18 - not a source figure"),
               ("IoT & Infrastructure (ILLUSTRATIVE)", "ILLUSTRATIVE: remainder of non-industrial I&I"),
               ("Other / unallocated", "Calculated residual (Raw_Data C1.1)")]
     for i, (lab, basis) in enumerate(labels):
         r = 6 + i
         W(ws, f"A{r}", lab, "label", bold=True)
-        W(ws, f"I{r}", basis, "grey", wrap=True)
+        W(ws, f"L{r}", basis, "grey", wrap=True)
         ws.row_dimensions[r].height = 28
-        for yi in range(4):
+        for yi in range(6):
             c = CL(2 + yi)
             if i == 0:
                 f = f"={rawy('auto', yi)}"
             elif i == 1:
-                f = f"={rawy('ii', yi)}*$B$19" if yi < 3 else f"={R['K09']}"
+                f = f"={rawy('ii', yi)}*$B$19" if yi < 5 else f"={R['K09']}"
             elif i == 2:
                 f = f"=({c}14-{c}7)*$B$18"
             elif i == 3:
@@ -204,7 +210,7 @@ def build_revenue(ws):
     W(ws, "A13", "Reconciliation difference (must be 0.0)", "label")
     W(ws, "A14", "I&I reported segment (Raw_Data)", "label")
     W(ws, "A15", "Industrial as % of I&I (implied)", "label")
-    for yi in range(4):
+    for yi in range(6):
         c = CL(2 + yi)
         W(ws, f"{c}11", f"=SUM({c}6:{c}10)", "out", "bn")
         W(ws, f"{c}12", f"={rawy('total', yi)}", "calc", "bn")
@@ -212,38 +218,39 @@ def build_revenue(ws):
         W(ws, f"{c}14", f"={rawy('ii', yi)}", "calc", "bn")
         W(ws, f"{c}15", f"={c}7/{c}14", "calc", "pct")
     for r in (6, 7, 8, 9, 11, 14):
-        W(ws, f"F{r}", f"=(D{r}/B{r})^(1/2)-1", "calc", "pct")
-        W(ws, f"G{r}", f"=(E{r}/B{r})^(1/3)-1", "calc", "pct")
-        W(ws, f"H{r}", f"=E{r}-D{r}", "calc", "bn")
-    for c in "FGH":
+        W(ws, f"H{r}", f"=(F{r}/B{r})^(1/4)-1", "calc", "pct")
+        W(ws, f"I{r}", f"=(G{r}/B{r})^(1/5)-1", "calc", "pct")
+        W(ws, f"J{r}", f"=(F{r}/D{r})^(1/2)-1", "calc", "pct")
+        W(ws, f"K{r}", f"=F{r}-B{r}", "calc", "bn")
+    for c in ("H", "I", "J", "K"):
         W(ws, f"{c}10", "n/m", "grey", h="center")
-    W(ws, "I11", "Components always reconcile to reported total (check row 13)", "grey")
-    W(ws, "I13", "Avoids double counting: Industrial + Consumer + IoT = I&I exactly", "grey")
-    W(ws, "I15", "FY26E share is DERIVED from the report's 320 and annualised I&I 772.0 (41.5%), inside the 40-45% range", "grey", wrap=True)
+    W(ws, "L11", "Components always reconcile to reported total (check row 13)", "grey")
+    W(ws, "L13", "Avoids double counting: Industrial + Consumer + IoT = I&I exactly", "grey")
+    W(ws, "L15", "FY26E share is DERIVED from the report's 320 and annualised I&I 772.0 (41.5%), inside the 40-45% range", "grey", wrap=True)
     ws.row_dimensions[15].height = 28
-    section(ws, 17, "Analyst assumptions used on this sheet", 9)
+    section(ws, 17, "Analyst assumptions used on this sheet", 12)
     W(ws, "A18", "Consumer share of non-industrial I&I remainder (ILLUSTRATIVE)", "label")
     W(ws, "B18", 0.40, "assump", "pct")
     W(ws, "C18", "No source splits Consumer vs IoT/Infrastructure. Report only says the remainder mixes consumer electronics, smart home and hyperscale data-centre infrastructure. Change to test.", "note", border=False)
-    W(ws, "A19", "Pure Industrial share of I&I applied to FY2023-FY2025 (point estimate)", "label")
+    W(ws, "A19", "Pure Industrial share of I&I applied to FY2021-FY2025 (point estimate)", "label")
     W(ws, "B19", f"={R['K05']}", "calc", "pct")
-    W(ws, "C19", "Report supplies the share for FY2025 only; holding it constant makes Industrial/Consumer/IoT growth identical to I&I growth FY23-25 BY CONSTRUCTION.", "note", border=False)
+    W(ws, "C19", "Report supplies the share for FY2025 only; holding it constant makes Industrial/Consumer/IoT growth identical to I&I growth FY21-25 BY CONSTRUCTION.", "note", border=False)
     R["rev_cons_share"] = "Revenue_Analysis!$B$18"
     R["rev_rows"] = dict(Automotive=6, Industrial=7, Consumer=8, IoT=9, Other=10, Total=11, II=14)
 
-    section(ws, 21, "2. Revenue contribution (% of total)", 9)
+    section(ws, 21, "2. Revenue contribution (% of total)", 12)
     header(ws, 22, ["Application"] + YEARS)
     for i in range(5):
         r = 23 + i
         W(ws, f"A{r}", f"=A{6+i}", "label")
-        for yi in range(4):
+        for yi in range(6):
             c = CL(2 + yi)
             W(ws, f"{c}{r}", f"={c}{6+i}/{c}$11", "calc", "pct")
     W(ws, "A28", "Total", "label", bold=True)
-    for yi in range(4):
+    for yi in range(6):
         c = CL(2 + yi)
         W(ws, f"{c}28", f"=SUM({c}23:{c}27)", "out", "pct")
-    section(ws, 30, "3. Year-over-year growth = Current / Previous - 1  (FY2026E column is vs an ESTIMATE - label accordingly)", 9)
+    section(ws, 30, "3. Year-over-year growth = Current / Previous - 1  (FY2026E column is vs an ESTIMATE - label accordingly)", 12)
     header(ws, 31, ["Application"] + YEARS)
     yoy_labels = ["Automotive", "Industrial (ESTIMATE)", "Consumer (ILLUSTRATIVE)", "IoT & Infrastructure (ILLUSTRATIVE)", "Total revenue", "I&I reported segment"]
     yoy_src = [6, 7, 8, 9, 11, 14]
@@ -251,40 +258,40 @@ def build_revenue(ws):
         r = 32 + i
         W(ws, f"A{r}", lab, "label")
         W(ws, f"B{r}", "n/a", "grey", h="center")
-        for yi in range(1, 4):
+        for yi in range(1, 6):
             c, p = CL(2 + yi), CL(1 + yi)
             W(ws, f"{c}{r}", f"={c}{sr}/{p}{sr}-1", "calc", "pct")
-    ws.conditional_formatting.add("C32:E37", CellIsRule(operator="lessThan", formula=["0"], fill=PatternFill("solid", bgColor=RED), font=Font(color=DRED)))
-    ws.conditional_formatting.add("C32:E37", CellIsRule(operator="greaterThan", formula=["0.05"], fill=PatternFill("solid", bgColor=GREEN)))
-    section(ws, 39, "4. Absolute revenue change (JPY bn)", 9)
+    ws.conditional_formatting.add("C32:G37", CellIsRule(operator="lessThan", formula=["0"], fill=PatternFill("solid", bgColor=RED), font=Font(color=DRED)))
+    ws.conditional_formatting.add("C32:G37", CellIsRule(operator="greaterThan", formula=["0.05"], fill=PatternFill("solid", bgColor=GREEN)))
+    section(ws, 39, "4. Absolute revenue change (JPY bn)", 12)
     header(ws, 40, ["Application"] + YEARS)
     for i in range(5):
         r = 41 + i
         W(ws, f"A{r}", f"=A{6+i}", "label")
         W(ws, f"B{r}", "n/a", "grey", h="center")
-        for yi in range(1, 4):
+        for yi in range(1, 6):
             c, p = CL(2 + yi), CL(1 + yi)
             W(ws, f"{c}{r}", f"={c}{6+i}-{p}{6+i}", "calc", "bn")
     W(ws, "A46", "Total revenue", "label", bold=True)
     W(ws, "B46", "n/a", "grey", h="center")
-    for yi in range(1, 4):
+    for yi in range(1, 6):
         c, p = CL(2 + yi), CL(1 + yi)
-        W(ws, f"{c}46", f"={c}11-{p}11", "out", "bn")
-    section(ws, 48, "5. Revenue concentration", 9)
+        W(ws, f"{c}{46}", f"={c}11-{p}11", "out", "bn")
+    section(ws, 48, "5. Revenue concentration", 12)
     header(ws, 49, ["Measure"] + YEARS)
     W(ws, "A50", "HHI across the five revenue buckets (0-10,000; >2,500 = highly concentrated)", "label")
     W(ws, "A51", "Largest bucket share", "label"); W(ws, "A52", "Largest bucket", "label")
     W(ws, "A53", "Automotive + Industrial share of total", "label")
-    for yi in range(4):
+    for yi in range(6):
         c = CL(2 + yi)
         W(ws, f"{c}50", f"=SUMPRODUCT({c}23:{c}27,{c}23:{c}27)*10000", "calc", "#,##0")
         W(ws, f"{c}51", f"=MAX({c}23:{c}27)", "calc", "pct")
         W(ws, f"{c}52", f"=INDEX($A$6:$A$10,MATCH({c}51,{c}23:{c}27,0))", "calc", h="center")
         W(ws, f"{c}53", f"={c}23+{c}24", "calc", "pct")
     ws.row_dimensions[52].height = 30
-    for c in "BCDE":
+    for c in ("B", "C", "D", "E", "F", "G"):
         ws[f"{c}52"].alignment = Alignment(wrap_text=True, horizontal="center", vertical="center")
-    section(ws, 55, "6. Industrial disaggregation methodology (FY2025) - Industrial is an ESTIMATE, never the whole I&I segment", 9)
+    section(ws, 55, "6. Industrial disaggregation methodology (FY2025) - Industrial is an ESTIMATE, never the whole I&I segment", 12)
     header(ws, 56, ["Case", "Share of I&I", "I&I FY2025 (JPY bn)", "Pure Industrial (calc)", "Report-stated", "Calc - report", "Check", "", "Comment"], h=32)
     cases = [("Low (40%)", "K03", "K06", "Report states 282 as the low end, but 40% x 671.8 = 268.7 -> the report's low end looks overstated by ~13 bn"),
              ("Point (42.5%)", "K05", "K08", "Matches the report table (285.5)"),
@@ -293,7 +300,7 @@ def build_revenue(ws):
         r = 57 + i
         W(ws, f"A{r}", lab, "label")
         W(ws, f"B{r}", f"={R[share]}", "calc", "pct")
-        W(ws, f"C{r}", "=$D$14", "calc", "bn")
+        W(ws, f"C{r}", "=$F$14", "calc", "bn")
         W(ws, f"D{r}", f"=B{r}*C{r}", "out", "bn")
         W(ws, f"E{r}", f"={R[rep]}", "calc", "bn")
         W(ws, f"F{r}", f"=D{r}-E{r}", "calc", "bn")
@@ -308,43 +315,44 @@ def build_revenue(ws):
     W(ws, "D61", "=D60/D58", "calc", "pct")
     R["rev_band_pct"] = "Revenue_Analysis!$D$61"
     # section 7 forecast link rows 63+ (filled later)
-    section(ws, 63, "7. FY2027 forecast revenue by application (probability-weighted; links to Forecast_Scenarios)", 9)
+    section(ws, 63, "7. FY2027 forecast revenue by application (probability-weighted; links to Forecast_Scenarios)", 12)
     header(ws, 64, ["Application", "FY2026E (est.)", "FY2027E expected", "Expected growth", "Change (JPY bn)"])
-    section(ws, 72, "8. Limitations - read before using growth rates", 9)
-    notes = ["- Only two segments are reported (Automotive; I&I). Industrial, Consumer and IoT revenues are NOT reported; Industrial is a report estimate and Consumer/IoT split is illustrative.",
-             "- Because the Industrial share is held constant for FY2023-25, Industrial/Consumer/IoT historical growth equals I&I growth by construction: it cannot discriminate between those three applications.",
-             "- FY2026E is an annualised estimate; growth into FY2026E (+14%) mixes a rebound with the report's own estimation method. CAGR FY23-25 uses actuals only (2 periods).",
-             "- Total-vs-segment reconciliation leaves a small 'Other' residual (0.5%-0.7% of revenue); it is shown explicitly rather than silently allocated.",
+    section(ws, 72, "8. Limitations - read before using growth rates", 12)
+    notes = ["- Only two segments are reported (Automotive; I&I). Standalone Industrial, Consumer and IoT revenues are NOT reported; Industrial is a report estimate and Consumer/IoT split is illustrative.",
+             "- Because the Industrial share is held constant for FY2021-25, Industrial/Consumer/IoT historical growth equals I&I growth by construction: it cannot discriminate between those three applications.",
+             "- FY2021-FY2022 actuals show the post-COVID supercycle peak (revenue 1,503.8 bn JPY in FY22; OM 37.2%), confirming the FY24 downcycle was an inventory correction rather than structural decline.",
+             "- FY2026E is an annualised estimate; growth into FY2026E (+14%) mixes a rebound with the report's estimation method. CAGR FY21-25 (+7.4%) captures the full 4-year cycle.",
+             "- Total-vs-segment reconciliation leaves a small 'Other' residual (0.6%-1.6% of revenue); it is shown explicitly rather than silently allocated.",
              "- Revenue contribution and growth are NOT sufficient to rank applications: see Profitability_Quality, Risk_Analysis and Strategic_Scorecard."]
     text_rows(ws, 73, notes)
     # charts
     ch = BarChart(); ch.type = "col"; ch.grouping = "stacked"; ch.overlap = 100
-    ch.title = "Revenue by application (JPY bn; FY26E = estimate)"
+    ch.title = "Revenue by application (JPY bn; FY2021-FY2026E)"
     ch.y_axis.title = "JPY bn"
-    data = Reference(ws, min_col=1, max_col=5, min_row=6, max_row=10)
+    data = Reference(ws, min_col=1, max_col=7, min_row=6, max_row=10)
     ch.add_data(data, from_rows=True, titles_from_data=True)
-    ch.set_categories(Reference(ws, min_col=2, max_col=5, min_row=5))
+    ch.set_categories(Reference(ws, min_col=2, max_col=7, min_row=5))
     ch.height, ch.width = 9, 17
     ch.x_axis.delete = False; ch.y_axis.delete = False
-    ws.add_chart(ch, "K4")
-    lc = LineChart(); lc.title = "YoY growth by application (FY26E vs estimate)"
-    lc.add_data(Reference(ws, min_col=1, max_col=5, min_row=32, max_row=36), from_rows=True, titles_from_data=True)
-    lc.set_categories(Reference(ws, min_col=2, max_col=5, min_row=31))
+    ws.add_chart(ch, "N4")
+    lc = LineChart(); lc.title = "YoY growth by application (FY2022-FY2026E)"
+    lc.add_data(Reference(ws, min_col=1, max_col=7, min_row=32, max_row=36), from_rows=True, titles_from_data=True)
+    lc.set_categories(Reference(ws, min_col=2, max_col=7, min_row=31))
     lc.y_axis.number_format = "0%"; lc.height, lc.width = 9, 17
     lc.x_axis.delete = False; lc.y_axis.delete = False
-    ws.add_chart(lc, "K24")
+    ws.add_chart(lc, "N24")
 
 
 def fill_revenue_forecast(ws):
     for i, app in enumerate(APPS):
         r = 65 + i
         W(ws, f"A{r}", f"=A{6+i}", "label")
-        W(ws, f"B{r}", f"=E{6+i}", "calc", "bn")
+        W(ws, f"B{r}", f"=G{6+i}", "calc", "bn")
         W(ws, f"C{r}", f"={R['fc_sum_rev'][app]}", "calc", "bn")
         W(ws, f"D{r}", f"=C{r}/B{r}-1", "calc", "pct")
         W(ws, f"E{r}", f"=C{r}-B{r}", "calc", "bn")
     W(ws, "A69", "Other / unallocated (held flat)", "label")
-    W(ws, "B69", "=E10", "calc", "bn"); W(ws, "C69", f"={R['fc_other']}", "calc", "bn")
+    W(ws, "B69", "=G10", "calc", "bn"); W(ws, "C69", f"={R['fc_other']}", "calc", "bn")
     W(ws, "D69", "=C69/B69-1", "calc", "pct"); W(ws, "E69", "=C69-B69", "calc", "bn")
     W(ws, "A70", "Total company (expected)", "label", bold=True)
     W(ws, "B70", "=SUM(B65:B69)", "out", "bn"); W(ws, "C70", "=SUM(C65:C69)", "out", "bn")
@@ -369,32 +377,32 @@ QUALITY = [  # factor, weight, [auto, ind, cons, iot], evidence
 def build_profit(ws):
     title(ws, "PROFITABILITY & REVENUE QUALITY",
           "Application-level profit data is NOT disclosed. Automotive margins are DERIVED; Industrial/Consumer/IoT margins are PROXIES that reconcile exactly to the reported I&I segment margin.", 8)
-    widths(ws, [52, 14, 14, 14, 14, 14, 70, 4])
+    widths(ws, [52, 14, 14, 14, 14, 14, 14, 70, 4])
     ws.freeze_panes = "B4"
-    section(ws, 4, "1. Reported margins (non-GAAP) - consolidated and I&I", 8)
+    section(ws, 4, "1. Reported margins (non-GAAP) - consolidated and I&I", 9)
     header(ws, 5, ["Metric"] + YEARS + ["", "Data type"])
     W(ws, "A6", "Consolidated gross margin", "label"); W(ws, "A7", "Consolidated operating margin", "label")
     W(ws, "A8", "I&I segment gross margin", "label"); W(ws, "A9", "I&I segment operating margin", "label")
-    for yi in range(4):
+    for yi in range(6):
         c = CL(2 + yi)
         W(ws, f"{c}6", f"={rawy('gm', yi)}", "calc", "pct"); W(ws, f"{c}7", f"={rawy('om', yi)}", "calc", "pct")
-        if yi == 2:
+        if yi == 4:
             W(ws, f"{c}8", f"={R['K01']}", "calc", "pct"); W(ws, f"{c}9", f"={R['K02']}", "calc", "pct")
         else:
             W(ws, f"{c}8", "n/d", "grey", h="center"); W(ws, f"{c}9", "n/d", "grey", h="center")
-    W(ws, "G6", "Reported* (FY26E annualised est.)", "grey"); W(ws, "G7", "Reported* (FY26E annualised est.)", "grey")
-    W(ws, "G8", "Reported* FY2025 only; other years not disclosed in report (n/d)", "grey"); W(ws, "G9", "Reported* FY2025 only", "grey")
+    W(ws, "H6", "Reported* (FY26E annualised est.)", "grey"); W(ws, "H7", "Reported* (FY26E annualised est.)", "grey")
+    W(ws, "H8", "Reported* FY2025 only; other years not disclosed in report (n/d)", "grey"); W(ws, "H9", "Reported* FY2025 only", "grey")
     section(ws, 11, "2. Implied Automotive margin FY2025 (DERIVED = consolidated less I&I; 'Other' assumed at consolidated margin)", 8)
-    items = [("Consolidated revenue FY2025", f"={rawy('total', 2)}", "bn"), ("Automotive revenue FY2025", f"={rawy('auto', 2)}", "bn"),
-             ("I&I revenue FY2025", f"={rawy('ii', 2)}", "bn"), ("Other / unallocated FY2025", f"={rawy('other', 2)}", "bn")]
+    items = [("Consolidated revenue FY2025", f"={rawy('total', 4)}", "bn"), ("Automotive revenue FY2025", f"={rawy('auto', 4)}", "bn"),
+             ("I&I revenue FY2025", f"={rawy('ii', 4)}", "bn"), ("Other / unallocated FY2025", f"={rawy('other', 4)}", "bn")]
     for i, (l, f, fm) in enumerate(items):
         W(ws, f"A{12+i}", l, "label"); W(ws, f"B{12+i}", f, "calc", fm)
     W(ws, "A16", "Implied Automotive gross margin (derived)", "label")
-    W(ws, "B16", "=(D6*B12-D8*B14-D6*B15)/B13", "out", "pct")
+    W(ws, "B16", "=(F6*B12-F8*B14-F6*B15)/B13", "out", "pct")
     W(ws, "A17", "Implied Automotive operating margin (derived)", "label")
-    W(ws, "B17", "=(D7*B12-D9*B14-D7*B15)/B13", "out", "pct")
-    W(ws, "A18", "Gross-margin gap: I&I less Automotive (pp)", "label"); W(ws, "B18", "=D8-B16", "calc", "pp")
-    W(ws, "A19", "Operating-margin gap: I&I less Automotive (pp)", "label"); W(ws, "B19", "=D9-B17", "calc", "pp")
+    W(ws, "B17", "=(F7*B12-F9*B14-F7*B15)/B13", "out", "pct")
+    W(ws, "A18", "Gross-margin gap: I&I less Automotive (pp)", "label"); W(ws, "B18", "=F8-B16", "calc", "pp")
+    W(ws, "A19", "Operating-margin gap: I&I less Automotive (pp)", "label"); W(ws, "B19", "=F9-B17", "calc", "pp")
     W(ws, "G16", "DERIVED - not reported. Segment-margin definitions (e.g. unallocated corporate costs) are unverified, so treat as indicative.", "note", border=False)
     W(ws, "G18", "I&I has higher GROSS margin ...", "note", border=False)
     W(ws, "G19", "... but LOWER operating margin than Automotive (implied): 'superior structural profitability' is only true at gross-margin level (F-04).", "note", border=False)
@@ -405,24 +413,24 @@ def build_profit(ws):
     header(ws, 22, ["Metric"] + APPS + ["Check / total", "Basis"])
     W(ws, "A23", "Revenue FY2025 (JPY bn)", "label")
     for i, app in enumerate(APPS):
-        W(ws, f"{CL(2+i)}23", f"=Revenue_Analysis!$D${R['rev_rows'][app]}", "calc", "bn")
+        W(ws, f"{CL(2+i)}23", f"=Revenue_Analysis!$F${R['rev_rows'][app]}", "calc", "bn")
     W(ws, "F23", "=SUM(B23:E23)", "calc", "bn")
     W(ws, "A24", "GM premium of Industrial over I&I average (pp) - ANALYST ASSUMPTION", "label"); W(ws, "C24", 0.02, "assump", "pp")
     W(ws, "A25", "GM discount of Consumer vs non-industrial remainder (pp) - ANALYST ASSUMPTION", "label"); W(ws, "D25", -0.04, "assump", "pp")
     W(ws, "A26", "OM premium of Industrial over I&I average (pp) - ANALYST ASSUMPTION", "label"); W(ws, "C26", 0.0, "assump", "pp")
     W(ws, "A27", "OM discount of Consumer vs non-industrial remainder (pp) - ANALYST ASSUMPTION", "label"); W(ws, "D27", -0.02, "assump", "pp")
     W(ws, "A28", "Non-industrial remainder gross margin (derived so I&I reconciles)", "label")
-    W(ws, "B28", "=(D8*(C23+D23+E23)-(D8+C24)*C23)/(D23+E23)", "calc", "pct")
+    W(ws, "B28", "=(F8*(C23+D23+E23)-(F8+C24)*C23)/(D23+E23)", "calc", "pct")
     W(ws, "A29", "Non-industrial remainder operating margin (derived)", "label")
-    W(ws, "B29", "=(D9*(C23+D23+E23)-(D9+C26)*C23)/(D23+E23)", "calc", "pct")
+    W(ws, "B29", "=(F9*(C23+D23+E23)-(F9+C26)*C23)/(D23+E23)", "calc", "pct")
     W(ws, "A30", "IoT adjustment vs remainder (derived so weights net to zero)", "label")
     W(ws, "B30", "=-D25*D23/E23", "calc", "pp")
     W(ws, "C30", "=-D27*D23/E23", "calc", "pp")
     W(ws, "A31", "GROSS MARGIN - proxy FY2025", "label", bold=True)
-    W(ws, "B31", "=B16", "out", "pct"); W(ws, "C31", "=D8+C24", "out", "pct")
+    W(ws, "B31", "=B16", "out", "pct"); W(ws, "C31", "=F8+C24", "out", "pct")
     W(ws, "D31", "=B28+D25", "out", "pct"); W(ws, "E31", "=B28+B30", "out", "pct")
     W(ws, "A32", "OPERATING MARGIN - proxy FY2025", "label", bold=True)
-    W(ws, "B32", "=B17", "out", "pct"); W(ws, "C32", "=D9+C26", "out", "pct")
+    W(ws, "B32", "=B17", "out", "pct"); W(ws, "C32", "=F9+C26", "out", "pct")
     W(ws, "D32", "=B29+D27", "out", "pct"); W(ws, "E32", "=B29+C30", "out", "pct")
     W(ws, "A33", "Gross profit FY2025 (JPY bn)", "label")
     W(ws, "A34", "Operating profit FY2025 (JPY bn)", "label")
@@ -433,10 +441,10 @@ def build_profit(ws):
         W(ws, f"{c}35", f"={c}33/$F$33", "calc", "pct")
     W(ws, "F33", "=SUM(B33:E33)", "calc", "bn"); W(ws, "F34", "=SUM(B34:E34)", "calc", "bn"); W(ws, "F35", "=SUM(B35:E35)", "calc", "pct")
     W(ws, "A36", "Reconciliation: Industrial+Consumer+IoT GP less I&I GP (must be 0.0)", "label")
-    W(ws, "F36", "=ROUND(SUM(C33:E33)-D8*D14*0-D8*B14,6)", "calc", "bn")
-    ws["F36"].value = "=ROUND(SUM(C33:E33)-D8*B14,6)"
+    W(ws, "F36", "=ROUND(SUM(C33:E33)-F8*B14,6)", "calc", "bn")
+    ws["F36"].value = "=ROUND(SUM(C33:E33)-F8*B14,6)"
     W(ws, "A37", "Reconciliation: Industrial+Consumer+IoT OP less I&I OP (must be 0.0)", "label")
-    W(ws, "F37", "=ROUND(SUM(C34:E34)-D9*B14,6)", "calc", "bn")
+    W(ws, "F37", "=ROUND(SUM(C34:E34)-F9*B14,6)", "calc", "bn")
     W(ws, "A38", "Data type", "label")
     for i, t in enumerate(["DERIVED", "PROXY", "PROXY", "PROXY"]):
         W(ws, f"{CL(2+i)}38", t, "flag" if t == "PROXY" else "grey", h="center")
@@ -479,10 +487,10 @@ def build_profit(ws):
     ws.conditional_formatting.add("C51:F58", ColorScaleRule(start_type="num", start_value=1, start_color="F8696B", mid_type="num", mid_value=5.5, mid_color="FFEB84", end_type="num", end_value=10, end_color="63BE7B"))
     R["quality"] = {a: f"Profitability_Quality!${CL(3+i)}$60" for i, a in enumerate(APPS)}
     R["q_wsum"] = "Profitability_Quality!$B$59"
-    section(ws, 63, "Measured proxy: revenue volatility = standard deviation of YoY growth FY24-FY26E (3 observations; indicative only)", 8)
-    W(ws, "A64", "Automotive (reported)", "label"); W(ws, "B64", "=STDEV(Revenue_Analysis!C32:E32)", "calc", "pct")
-    W(ws, "A65", "I&I segment (reported)", "label"); W(ws, "B65", "=STDEV(Revenue_Analysis!C37:E37)", "calc", "pct")
-    W(ws, "G64", "I&I fell 16.7% in FY2024 vs Automotive +1.0%: I&I is NOT more stable than Automotive on this evidence.", "note", border=False)
+    section(ws, 63, "Measured proxy: revenue volatility = standard deviation of YoY growth FY22-FY26E (5 observations; indicative only)", 8)
+    W(ws, "A64", "Automotive (reported)", "label"); W(ws, "B64", "=STDEV(Revenue_Analysis!C32:G32)", "calc", "pct")
+    W(ws, "A65", "I&I segment (reported)", "label"); W(ws, "B65", "=STDEV(Revenue_Analysis!C37:G37)", "calc", "pct")
+    W(ws, "G64", "Across the 6-year timeline, I&I displays higher cyclical volatility than Automotive (peaked +64.1% in FY22, dropped -16.7% in FY24), confirming I&I is not inherently more stable.", "note", border=False)
     R["vol_auto"], R["vol_ii"] = "Profitability_Quality!$B$64", "Profitability_Quality!$B$65"
     section(ws, 67, "Why revenue growth alone is insufficient to choose where to invest", 8)
     text_rows(ws, 68, [
@@ -602,7 +610,7 @@ def build_forecast(ws):
     ws.freeze_panes = "B4"
     section(ws, 4, "Global inputs", 7)
     W(ws, "A5", "Gross-margin-to-operating-margin pass-through (share of GM change reaching operating margin)", "label"); W(ws, "B5", 0.8, "assump", "pct")
-    W(ws, "A6", "Other / unallocated revenue FY2027 (held flat at FY2026E)", "label"); W(ws, "B6", "=Revenue_Analysis!$E$10", "calc", "bn")
+    W(ws, "A6", "Other / unallocated revenue FY2027 (held flat at FY2026E)", "label"); W(ws, "B6", "=Revenue_Analysis!$G$10", "calc", "bn")
     W(ws, "F5", "ANALYST ASSUMPTION: opex growth absorbs 20% of any gross-margin movement", "note", border=False)
     R["fc_other"] = "Forecast_Scenarios!$B$6"
     R["fc_sum_rev"], R["fc_sum"] = {}, {}
@@ -626,7 +634,7 @@ def build_forecast(ws):
                 W(ws, f"{c}{L(0)}", f"={R['K' + str(16 + j)]}", "src", "pct")
             else:
                 W(ws, f"{c}{L(0)}", pr[j], "assump", "pct")
-            W(ws, f"{c}{L(1)}", f"=Revenue_Analysis!$E${R['rev_rows'][app]}", "calc", "bn")
+            W(ws, f"{c}{L(1)}", f"=Revenue_Analysis!$G${R['rev_rows'][app]}", "calc", "bn")
             if ind:
                 W(ws, f"{c}{L(2)}", f"={c}{L(3)}/{c}{L(1)}-1", "calc", "pct")
                 W(ws, f"{c}{L(3)}", f"={R['K' + str(10 + j)]}", "src", "bn")
@@ -743,16 +751,17 @@ def build_growth(ws):
         ws.row_dimensions[r].height = 30
     R["g_fa_cagr"], R["g_ai_cagr"] = "Growth_Opportunity!$G$6", "Growth_Opportunity!$G$7"
     section(ws, 12, "2. Company revenue growth vs market growth (kept separate)", 9)
-    header(ws, 13, ["Application", "Hist. company CAGR FY23-25", "FY26E YoY (est.)", "FY27E expected growth (scenario)", "", "", "", "", "Reading"], h=44)
-    reads = {"Automotive": "Contracting FY24-25 then rebound (est.); expected growth low in scenarios.",
-             "Industrial": "Hist. growth = I&I by construction; forward growth comes from the report's scenarios (pro-Industrial source) - see bias note.",
-             "Consumer": "Illustrative; identical history to I&I by construction.", "IoT": "Illustrative; includes infrastructure/data-centre exposure."}
+    header(ws, 13, ["Application", "Full-cycle CAGR FY21-25", "Recent CAGR FY23-25", "FY26E YoY (est.)", "FY27E expected growth (scenario)", "", "", "", "Reading"], h=44)
+    reads = {"Automotive": "Full-cycle CAGR +8.5%; downcycle FY24-25 then rebound (est.); expected growth low in scenarios.",
+             "Industrial": "Full-cycle CAGR +6.8%; forward growth comes from report's scenarios (pro-Industrial source) - see bias note.",
+             "Consumer": "Illustrative; full-cycle CAGR +6.8% identical to I&I by construction.", "IoT": "Illustrative; full-cycle CAGR +6.8% includes infrastructure/data-centre exposure."}
     for i, app in enumerate(APPS):
         r = 14 + i
         W(ws, f"A{r}", app, "label", bold=True)
-        W(ws, f"B{r}", f"=Revenue_Analysis!$F${R['rev_rows'][app]}", "calc", "pct")
-        W(ws, f"C{r}", f"=Revenue_Analysis!$E${R['rev_rows'][app]}/Revenue_Analysis!$D${R['rev_rows'][app]}-1", "calc", "pct")
-        W(ws, f"D{r}", f"={R['fc_sum_growth'][app]}", "calc", "pct")
+        W(ws, f"B{r}", f"=Revenue_Analysis!$H${R['rev_rows'][app]}", "calc", "pct")
+        W(ws, f"C{r}", f"=Revenue_Analysis!$J${R['rev_rows'][app]}", "calc", "pct")
+        W(ws, f"D{r}", f"=Revenue_Analysis!$G${R['rev_rows'][app]}/Revenue_Analysis!$F${R['rev_rows'][app]}-1", "calc", "pct")
+        W(ws, f"E{r}", f"={R['fc_sum_growth'][app]}", "calc", "pct")
         W(ws, f"I{r}", reads[app], "grey", wrap=True); ws.row_dimensions[r].height = 28
     W(ws, "A18", "Bias note: Industrial forward growth is taken from the pro-Industrial research report; Automotive/Consumer/IoT scenarios are analyst-set. The recommendation is therefore stress-tested in Sensitivity (haircut on Industrial).", "note", border=False)
     section(ws, 20, "3. Market-opportunity factor scores (1-10, higher = more attractive) - ANALYST ASSESSMENT", 9)

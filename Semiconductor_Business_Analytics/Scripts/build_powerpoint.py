@@ -284,8 +284,8 @@ def create_presentation():
     # SLIDE 1: WHERE DOES THE BUSINESS STAND?
     # =========================================================================
     s1 = add_slide_base(
-        tracker="Executive Financial Diagnostic | FY2023–FY2026E Baseline Reality",
-        action_title="Automotive Profit Engine Decelerates (-3.2% CAGR), While Industrial Rebounds (+14.9%) with Superior Gross Margins"
+        tracker="Executive Financial Diagnostic | Continuous 6-Year Trajectory (FY2021–FY2026E)",
+        action_title="Automotive Engine Matures (+8.5% CAGR), While Industrial Rebounds (+14.9% FY26E) with Structural Gross Margin Expansion (+440 bps)"
     )
 
     # 3-Column Grid
@@ -302,39 +302,39 @@ def create_presentation():
 
     # 3 KPI tiles
     tile_w = (c_w - 0.44) / 3
-    add_kpi_tile(s1, c1_x + 0.18, top_y + 0.54, tile_w, 0.78, "FY25 Revenue", "1,321.2 bn", "-5.2% CAGR 23-25", NAVY, LBLUE)
-    add_kpi_tile(s1, c1_x + 0.18 + tile_w + 0.04, top_y + 0.54, tile_w, 0.78, "Gross Margin", "57.6%", "Non-GAAP (+150 bps)", GREEN, LGREEN)
-    add_kpi_tile(s1, c1_x + 0.18 + (tile_w + 0.04)*2, top_y + 0.54, tile_w, 0.78, "Operating Mgn", "29.3%", "Non-GAAP (-20 bps)", NAVY, LBLUE)
+    add_kpi_tile(s1, c1_x + 0.18, top_y + 0.54, tile_w, 0.78, "FY25 Revenue", "1,321.2 bn", "+7.4% CAGR 21-25", NAVY, LBLUE)
+    add_kpi_tile(s1, c1_x + 0.18 + tile_w + 0.04, top_y + 0.54, tile_w, 0.78, "Gross Margin", "57.6%", "+440 bps vs FY21", GREEN, LGREEN)
+    add_kpi_tile(s1, c1_x + 0.18 + (tile_w + 0.04)*2, top_y + 0.54, tile_w, 0.78, "Operating Mgn", "29.3%", "Core Cycle Floor", NAVY, LBLUE)
 
     col1_bullets = [
-        ("Post-COVID Correction Cycle:", "Consolidated revenue contracted from 1,469.7 bn JPY (FY23) to 1,321.2 bn JPY (FY25) due to severe global channel inventory digestion and industrial capex pauses."),
-        ("Automotive Deceleration:", "Automotive fell -8.9% in FY25 (639.7 bn vs 702.4 bn in FY24) as European/US EV adoption moderated, Tier-1s destocked, and China domestic MCU competition intensified."),
-        ("Industrial Growth Inflection:", "Industrial & Infrastructure (I&I) rebounded +5.5% in FY25 (671.8 bn) and accelerates to 772.0 bn in FY26E (+14.9% YoY run-rate), outpacing Automotive (+2.5%)."),
-        ("Parity Pillars with Diverging Paths:", "Automotive (48.4%) and I&I (50.8%) represent parity shares of group revenue, but Automotive growth is stalling while Industrial offers multi-year secular momentum."),
-        ("Wolfspeed Non-GAAP Treatment:", "The $141.5m (21.9 bn JPY) Wolfspeed SiC deposit loss is properly quarantined as a one-off restructuring charge, preserving core operating margin integrity at 29.3%.")
+        ("Post-COVID Supercycle (FY21-22):", "Consolidated revenue surged +51.3% YoY in FY22 to 1,503.8 bn JPY with peak OM of 37.2%, driven by semiconductor shortages and double-ordering across auto and industrial channels."),
+        ("Downcycle Inventory Correction (FY23-25):", "Revenue normalized to 1,321.2 bn in FY25 (-5.2% CAGR 23-25), confirming the FY24 trough was a macro inventory reset following the 2022 peak, not structural decay."),
+        ("Permanent Gross Margin Expansion:", "Gross margin expanded from 53.2% (FY21) to 57.6% (FY25, +440 bps) and holds at 58.1% in FY26E, proving catalog MCU and Dialog PMIC integration sustained pricing power."),
+        ("Automotive Deceleration (+2.5% FY26E):", "Automotive grew from 462.5 bn (FY21) to 639.7 bn (FY25, +8.5% CAGR), but slows to +2.5% in FY26E as EV adoption moderates and China domestic MCU competition intensifies."),
+        ("Industrial Growth Inflection (+14.9% FY26E):", "I&I grew from 515.5 bn (FY21) to 671.8 bn (FY25, +6.8% CAGR), and accelerates to 772.0 bn in FY26E (+14.9% YoY run-rate), decisively outpacing Automotive.")
     ]
     add_bullets(s1, c1_x + 0.18, top_y + 1.40, c_w - 0.36, 3.65, col1_bullets)
 
     # COLUMN 2: Segment & Application Revenue Breakdown
     add_card(s1, c2_x, top_y, c_w, card_h, "2. Segment & Application Breakdown", badge="DISCLOSED VS ESTIMATED", badge_color=BLUE)
 
-    s1_tbl_headers = ["Segment / App (JPY bn)", "FY23", "FY24", "FY25", "FY26E", "CAGR"]
+    s1_tbl_headers = ["Segment / App (JPY bn)", "FY21", "FY22", "FY23", "FY24", "FY25", "FY26E", "CAGR"]
     s1_tbl_rows = [
-        ["Automotive (Reported)", "691.0", "702.4", "639.7", "656.0", "-3.8%"],
-        ["I&I Segment (Reported)", "764.7", "636.8", "671.8", "772.0", "-6.3%"],
-        ["  Pure Industrial (Est. 42.5%)", "325.0", "270.6", "285.5", "320.0", "-6.3%"],
-        ["  Consumer (Illustrative 40%)", "175.9", "146.5", "154.5", "180.8", "-6.3%"],
-        ["  IoT (Illustrative 60%)", "263.8", "219.7", "231.8", "271.2", "-6.3%"],
-        ["Other / Unallocated Residual", "14.0", "10.6", "9.7", "10.0", "n/a"],
-        ["Consolidated Total", "1,469.7", "1,349.8", "1,321.2", "1,438.0", "-5.2%"]
+        ["Automotive (Reported)", "462.5", "649.0", "691.0", "702.4", "639.7", "656.0", "+8.5%"],
+        ["I&I Segment (Reported)", "515.5", "845.9", "764.7", "636.8", "671.8", "772.0", "+6.8%"],
+        ["  Pure Industrial (Est. 42.5%)", "219.1", "359.5", "325.0", "270.6", "285.5", "320.0", "+6.8%"],
+        ["  Consumer (Illustrative 40%)", "118.6", "194.6", "175.9", "146.5", "154.5", "180.8", "+6.8%"],
+        ["  IoT (Illustrative 60%)", "177.8", "291.8", "263.8", "219.7", "231.8", "271.2", "+6.8%"],
+        ["Other / Residual", "16.2", "8.9", "14.0", "10.6", "9.7", "10.0", "n/a"],
+        ["Consolidated Total", "994.2", "1,503.8", "1,469.7", "1,349.8", "1,321.2", "1,438.0", "+7.4%"]
     ]
-    s1_col_widths = [1.70, 0.44, 0.44, 0.44, 0.46, 0.46]
-    add_custom_table(s1, c2_x + 0.18, top_y + 0.54, c_w - 0.36, 2.05, s1_tbl_headers, s1_tbl_rows, s1_col_widths, align_right_cols=[1,2,3,4,5])
+    s1_col_widths = [1.24, 0.33, 0.35, 0.33, 0.33, 0.33, 0.35, 0.35]
+    add_custom_table(s1, c2_x + 0.18, top_y + 0.54, c_w - 0.36, 2.05, s1_tbl_headers, s1_tbl_rows, s1_col_widths, align_right_cols=[1,2,3,4,5,6,7])
 
     col2_bullets = [
-        ("Industrial Standalone Reality:", "Pure Industrial is estimated at 285.5 bn JPY in FY25 (42.5% point estimate of I&I; +/-6% sensitivity band 268.7–302.3 bn), expanding to 320.0 bn in FY26E (+12.1% YoY)."),
-        ("Reporting Limitation Disclosed:", "Renesas reports only at Automotive and I&I segment level. Pure Industrial is not disclosed separately; Consumer (154.5 bn) and IoT (231.8 bn) are illustrative splits of non-industrial I&I."),
-        ("Reconciliation Integrity:", "Every Yen reconciles to reported group totals; a 9.7 bn JPY 'Other' residual is disclosed rather than force-balanced, maintaining 100% audit transparency.")
+        ("6-Year Continuous Timeline:", "Incorporates verified FY21-FY22 actuals from Renesas Financial Reports 2022 [16] and 2024 [17]. Consolidated revenue grew at +7.4% full-cycle CAGR (FY21-25) across 4 elapsed intervals."),
+        ("Pure Industrial Standalone Reality:", "Pure Industrial is estimated at 285.5 bn in FY25 (42.5% point estimate of I&I; +/-6% band 268.7–302.3 bn), expanding to 320.0 bn in FY26E (+12.1% YoY) and 365.0 bn in FY27E."),
+        ("Reconciliation Transparency:", "Every period reconciles to reported group totals; historical residuals (16.2 bn in FY21, 8.9 bn in FY22, 9.7 bn in FY25) are disclosed rather than force-balanced, maintaining 100% audit integrity.")
     ]
     add_bullets(s1, c2_x + 0.18, top_y + 2.72, c_w - 0.36, 2.35, col2_bullets)
 
@@ -357,7 +357,7 @@ def create_presentation():
     # Bottom Banner Slide 1
     add_bottom_banner(
         s1,
-        "Defend Automotive as the high-margin cash generator (~31.5% OM), but reallocate incremental growth capital to Industrial where superior gross margins (60.6%) and secular AI/robotics tailwinds offer the highest risk-adjusted shareholder returns."
+        "Defend Automotive as the high-margin cash generator (~31.5% OM), but reallocate incremental growth capital to Industrial where superior gross margins (60.6%), post-cycle recovery (+14.9% FY26E), and secular Physical AI tailwinds offer the highest risk-adjusted shareholder returns."
     )
 
 

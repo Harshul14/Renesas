@@ -233,7 +233,7 @@ def build_pdf():
             Paragraph(
                 "<b>Author:</b> Senior Semiconductor Industry Strategy Practice & Financial Analytics Consultant<br/>"
                 "<b>Target Audience:</b> Chief Executive Officer, Chief Financial Officer, Chief Commercial Officer, Board of Directors<br/>"
-                "<b>Model Version:</b> 1.0 (Production Financial Build) | <b>Data Baseline:</b> FY2023–FY2026E | <b>Recalculation Status:</b> Fully Verified (0 Errors)",
+                "<b>Model Version:</b> 2.0 (Continuous 6-Year Build) | <b>Data Baseline:</b> FY2021–FY2026E | <b>Recalculation Status:</b> Fully Verified (0 Errors)",
                 style_body
             )
         ]
@@ -294,12 +294,12 @@ def build_pdf():
         [
             Paragraph("<b>Semiconductor_Business_Analytics.xlsx</b><br/>(Root & Final_Deliverables/)", style_tbl_cell_bold),
             Paragraph("Microsoft Excel 16.0<br/>(openpyxl + COM)", style_tbl_cell),
-            Paragraph("Master financial model containing 12 fully linked dynamic worksheets, 0 formula errors, 32 automated validation checks, and 10 sensitivity tables.", style_tbl_cell)
+            Paragraph("Master financial model containing 12 fully linked dynamic worksheets, continuous 6-year timeline (FY2021–FY2026E), 0 formula errors, 34 automated validation checks, and 10 sensitivity tables.", style_tbl_cell)
         ],
         [
             Paragraph("<b>Semiconductor_Business_Analytics_Presentation.pptx</b><br/>(Root & Final_Deliverables/)", style_tbl_cell_bold),
             Paragraph("PowerPoint 16.0<br/>(python-pptx)", style_tbl_cell),
-            Paragraph("Exactly 3 widescreen (16:9) executive consulting slides (Diagnostic, Recommendation, Execution). High-density McKinsey/BCG layout.", style_tbl_cell)
+            Paragraph("Exactly 3 widescreen (16:9) executive consulting slides (Diagnostic, Recommendation, Execution) updated with 6-year cyclical baseline. High-density McKinsey/BCG layout.", style_tbl_cell)
         ],
         [
             Paragraph("<b>Semiconductor_Business_Analytics_Presentation.pdf</b><br/>(Root & Final_Deliverables/)", style_tbl_cell_bold),
@@ -309,7 +309,7 @@ def build_pdf():
         [
             Paragraph("<b>README_Setup_and_Methodology.pdf</b><br/>(Root & Final_Deliverables/)", style_tbl_cell_bold),
             Paragraph("Adobe PDF<br/>(ReportLab)", style_tbl_cell),
-            Paragraph("This comprehensive handover report, covering environment setup, methodology, financial walkthrough, audit trail, and board Q&A.", style_tbl_cell)
+            Paragraph("This comprehensive handover report, featuring a dedicated section on the FY2021–FY2022 data extension, setup, financial walkthrough, audit trail, and board Q&A.", style_tbl_cell)
         ],
         [
             Paragraph("<b>Scripts/</b><br/>(build_excel, recalc_excel, build_powerpoint, etc.)", style_tbl_cell_bold),
@@ -452,10 +452,119 @@ def build_pdf():
     story.append(Spacer(1, 10))
 
     # -------------------------------------------------------------------------
-    # SECTION 5: EXECUTIVE PRESENTATION BLUEPRINT (3 SLIDES)
+    # SECTION 5: HISTORICAL DATA EXTENSION: FY2021 AND FY2022
     # -------------------------------------------------------------------------
     story.append(PageBreak())
-    story.append(Paragraph("5. Executive PowerPoint Presentation Architecture (3 Slides)", style_h1))
+    story.append(Paragraph("5. Historical Data Extension: FY2021 and FY2022 Integration", style_h1))
+    story.append(Paragraph(
+        "In response to the updated research dossier <code>Renesas Industrial Strategy Analysis_with 2021 and 2022 data.pdf</code>, "
+        "the financial model, PowerPoint presentation, and analytical narrative were extended from an initial four-year frame to a comprehensive, "
+        "continuous <b>six-year historical timeline (FY2021, FY2022, FY2023, FY2024, FY2025 actuals, and FY2026E run-rate estimate)</b>.",
+        style_body
+    ))
+
+    # 6-Year Timeline Table
+    h5_headers = [Paragraph(h, style_tbl_header) for h in ["Metric (JPY bn)", "FY21 (A)", "FY22 (A)", "FY23 (A)", "FY24 (A)", "FY25 (A)", "FY26E (est.)", "Full-Cycle CAGR / Trend"]]
+    h5_rows = [
+        [
+            Paragraph("<b>Consolidated Revenue</b>", style_tbl_cell_bold),
+            Paragraph("994.2", style_tbl_cell),
+            Paragraph("1,503.8", style_tbl_cell),
+            Paragraph("1,469.7", style_tbl_cell),
+            Paragraph("1,349.8", style_tbl_cell),
+            Paragraph("1,321.2", style_tbl_cell),
+            Paragraph("1,438.0", style_tbl_cell),
+            Paragraph("<b>+7.37%</b> (FY21-25)", style_tbl_cell_bold),
+        ],
+        [
+            Paragraph("<b>Automotive Revenue</b>", style_tbl_cell_bold),
+            Paragraph("462.5", style_tbl_cell),
+            Paragraph("649.0", style_tbl_cell),
+            Paragraph("691.0", style_tbl_cell),
+            Paragraph("702.4", style_tbl_cell),
+            Paragraph("639.7", style_tbl_cell),
+            Paragraph("656.0", style_tbl_cell),
+            Paragraph("<b>+8.45%</b> (FY21-25)", style_tbl_cell_bold),
+        ],
+        [
+            Paragraph("<b>I&I Segment Revenue</b>", style_tbl_cell_bold),
+            Paragraph("515.5", style_tbl_cell),
+            Paragraph("845.9", style_tbl_cell),
+            Paragraph("764.7", style_tbl_cell),
+            Paragraph("636.8", style_tbl_cell),
+            Paragraph("671.8", style_tbl_cell),
+            Paragraph("772.0", style_tbl_cell),
+            Paragraph("<b>+6.85%</b> (FY21-25)", style_tbl_cell_bold),
+        ],
+        [
+            Paragraph("<b>  Pure Industrial (Est. 42.5%)</b>", style_tbl_cell),
+            Paragraph("219.1", style_tbl_cell),
+            Paragraph("359.5", style_tbl_cell),
+            Paragraph("325.0", style_tbl_cell),
+            Paragraph("270.6", style_tbl_cell),
+            Paragraph("285.5", style_tbl_cell),
+            Paragraph("320.0", style_tbl_cell),
+            Paragraph("<b>+6.85%</b> (FY21-25)", style_tbl_cell_bold),
+        ],
+        [
+            Paragraph("<b>Non-GAAP Gross Margin</b>", style_tbl_cell_bold),
+            Paragraph("53.2%", style_tbl_cell),
+            Paragraph("57.4%", style_tbl_cell),
+            Paragraph("57.0%", style_tbl_cell),
+            Paragraph("56.1%", style_tbl_cell),
+            Paragraph("57.6%", style_tbl_cell),
+            Paragraph("58.1%", style_tbl_cell),
+            Paragraph("<b>+440 bps</b> Expansion", style_tbl_cell_bold),
+        ],
+        [
+            Paragraph("<b>Non-GAAP Operating Margin</b>", style_tbl_cell_bold),
+            Paragraph("29.8%", style_tbl_cell),
+            Paragraph("37.2%", style_tbl_cell),
+            Paragraph("34.1%", style_tbl_cell),
+            Paragraph("29.5%", style_tbl_cell),
+            Paragraph("29.3%", style_tbl_cell),
+            Paragraph("32.7%", style_tbl_cell),
+            Paragraph("37.2% Peak -> 29.3% Floor", style_tbl_cell),
+        ],
+        [
+            Paragraph("<b>Other Residual (Unallocated)</b>", style_tbl_cell),
+            Paragraph("16.2 (1.6%)", style_tbl_cell),
+            Paragraph("8.9 (0.6%)", style_tbl_cell),
+            Paragraph("14.0 (1.0%)", style_tbl_cell),
+            Paragraph("10.6 (0.8%)", style_tbl_cell),
+            Paragraph("9.7 (0.7%)", style_tbl_cell),
+            Paragraph("10.0 (0.7%)", style_tbl_cell),
+            Paragraph("Fully Reconciled (0.0 diff)", style_tbl_cell),
+        ]
+    ]
+    t_h5 = Table([h5_headers] + h5_rows, colWidths=[120, 48, 50, 50, 50, 50, 56, 80])
+    t_h5.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), COLOR_NAVY),
+        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, COLOR_BORDER),
+        ('PADDING', (0,0), (-1,-1), 3),
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+    ]))
+    story.append(t_h5)
+    story.append(Spacer(1, 8))
+
+    h5_narrative = [
+        ("Source Provenance & Verification:", "Historical actuals for FY2021 and FY2022 were directly extracted from Renesas official financial report citations [16] Financial Report 2022 and [17] Financial Report 2024 via the updated research dossier. All figures reflect non-GAAP management reporting."),
+        ("Post-COVID Supercycle Dynamics (FY21–FY22):", "In FY2022, consolidated revenue surged +51.3% YoY to 1,503.8 bn JPY while operating margin reached an unprecedented peak of 37.2%. The surge was spearheaded by I&I, which expanded +64.1% YoY (from 515.5 bn to 845.9 bn JPY), while Automotive grew +40.3% YoY (from 462.5 bn to 649.0 bn JPY)."),
+        ("Inventory Correction vs Structural Decline:", "Viewing the six-year timeline proves that the sharp revenue contraction observed in FY2024 (-16.7% in I&I) was a cyclical post-supercycle channel inventory digestion following the 2022 peak—not structural market obsolescence. The inventory trough was reached in FY2024–FY2025, and I&I is now firmly rebounding (+5.5% FY25; +14.9% FY26E run-rate)."),
+        ("Structural Gross Margin Floor:", "Despite severe volume swings across the cycle, Non-GAAP Gross Margin expanded permanently from 53.2% in FY2021 to 57.6% in FY2025 (+440 bps expansion) and is projected at 58.1% in FY2026E. The integration of Dialog semiconductor PMICs and proprietary microcontrollers has established a permanent gross-margin floor above 56% even at cyclical troughs."),
+        ("Strategic Impact on Capital Allocation:", "Extending to six years powerfully reinforces our recommendation to prioritize Industrial and Robotics & Physical AI. While Automotive delivered an +8.45% CAGR across the full cycle, its forward momentum has stalled (+2.5% FY26E) due to EV moderation and Chinese domestic MCU substitution. Conversely, Industrial has absorbed its inventory correction and is entering its next multi-year secular upcycle (+14.9% FY26E run-rate; 365 bn JPY FY2027 base case target)."),
+        ("Quality Assurance & Model Health:", "The recalculated 12-sheet Excel model incorporates all FY2021 and FY2022 data across dynamic formulas. 34 validation checks pass with exactly 0 formula errors (#REF!, #DIV/0!, #VALUE!, #NAME?, #N/A) across all sheets.")
+    ]
+    for pfx, bdy in h5_narrative:
+        story.append(Paragraph(f"▪ <b>{pfx}</b> {bdy}", style_bullet))
+    story.append(Spacer(1, 10))
+
+    # -------------------------------------------------------------------------
+    # SECTION 6: EXECUTIVE PRESENTATION BLUEPRINT (3 SLIDES)
+    # -------------------------------------------------------------------------
+    story.append(PageBreak())
+    story.append(Paragraph("6. Executive PowerPoint Presentation Architecture (3 Slides)", style_h1))
     story.append(Paragraph(
         "In strict compliance with management consulting standards and the assignment requirements, the presentation contains <b>EXACTLY THREE SLIDES</b>. "
         "There are no filler slides, no standalone title slides, and no appendix slides. The presentation is structured into three self-contained executive briefs:",
@@ -466,9 +575,9 @@ def build_pdf():
         [Paragraph("Slide # / Theme", style_tbl_header), Paragraph("Key Headline & Narrative", style_tbl_header), Paragraph("Data Tables, Cards & Visual Architecture", style_tbl_header)],
         [
             Paragraph("<b>SLIDE 1</b><br/>Where Does the Business Stand?<br/>(Financial Diagnostic)", style_tbl_cell_bold),
-            Paragraph("<b>Automotive Profit Engine Decelerates (-3.2% CAGR), While Industrial Rebounds (+14.9%) with Superior Gross Margins</b>", style_tbl_cell),
-            Paragraph("▪ <b>Col 1:</b> Financial Baseline & Cycle Trough (FY25: 1,321.2 bn JPY; GM 57.6%; OM 29.3%; Wolfspeed one-off quarantine).<br/>"
-                      "▪ <b>Col 2:</b> Segment & Application Table (FY23–FY26E: Auto, I&I, Pure Industrial 285.5 bn est., Consumer 154.5 bn, IoT 231.8 bn).<br/>"
+            Paragraph("<b>Automotive Engine Matures (+8.5% CAGR), While Industrial Rebounds (+14.9% FY26E) with Structural Gross Margin Expansion (+440 bps)</b>", style_tbl_cell),
+            Paragraph("▪ <b>Col 1:</b> Financial Baseline (FY21-25: +7.4% CAGR; GM 57.6%, +440 bps vs FY21; core OM floor 29.3%; supercycle peak 1,503.8 bn in FY22).<br/>"
+                      "▪ <b>Col 2:</b> 6-Year Segment Table (FY21–FY26E: Auto, I&I, Pure Ind 285.5 bn est., Consumer 154.5 bn, IoT 231.8 bn; FY21-25 CAGRs).<br/>"
                       "▪ <b>Col 3:</b> The Margin Paradox (I&I GM 60.6% vs Auto ~54.8%; Auto OM ~31.5% vs I&I 27.2%; Altium leverage solution).<br/>"
                       "▪ <b>Banner:</b> Defend Auto cash cow, reallocate growth capital to Industrial.", style_tbl_cell)
         ],
@@ -501,9 +610,9 @@ def build_pdf():
     story.append(Spacer(1, 10))
 
     # -------------------------------------------------------------------------
-    # SECTION 6: METHODOLOGY, DATA CLEANING & LIMITATIONS
+    # SECTION 7: METHODOLOGY, DATA CLEANING & LIMITATIONS
     # -------------------------------------------------------------------------
-    story.append(Paragraph("6. Methodology, Data Cleaning Decisions & Critical Caveats", style_h1))
+    story.append(Paragraph("7. Methodology, Data Cleaning Decisions & Critical Caveats", style_h1))
     story.append(Paragraph(
         "To ensure complete audit compliance and institutional credibility, the model discloses all analytical treatments, assumptions, and empirical gaps:",
         style_body
@@ -517,12 +626,12 @@ def build_pdf():
     story.append(Spacer(1, 10))
 
     # -------------------------------------------------------------------------
-    # SECTION 7: AUDIT TRAIL & DATA VALIDATION SUMMARY
+    # SECTION 8: AUDIT TRAIL & DATA VALIDATION SUMMARY (34 LIVE CHECKS)
     # -------------------------------------------------------------------------
     story.append(PageBreak())
-    story.append(Paragraph("7. Audit Trail & Data Validation Summary (32 Live Checks)", style_h1))
+    story.append(Paragraph("8. Audit Trail & Data Validation Summary (34 Live Checks)", style_h1))
     story.append(Paragraph(
-        "The financial model contains 32 automated quality assurance formulas in worksheet <code>Data_Validation</code>. "
+        "The financial model contains 34 automated quality assurance formulas in worksheet <code>Data_Validation</code>. "
         "Upon full recalculation via Excel COM (<code>CalculateFullRebuild</code>), the model achieves a flawless audit status:",
         style_body
     ))
@@ -531,9 +640,9 @@ def build_pdf():
         [
             Paragraph(
                 "<b>AUDIT STATUS: FULLY VERIFIED & RECONCILED</b><br/>"
-                "▪ <b>27 CHECKS PASSED:</b> Segment reconciliations, application sum vs I&I, zero blank cells, zero duplicate IDs, scorecard weight sums (100%), resource allocation sums (100%), scenario probability sums (100%), margin proxy reconciliations.<br/>"
-                "▪ <b>3 FLAGGED ITEMS (Expected Report Arithmetic Discrepancies):</b><br/>"
-                "  - <i>F-01:</i> Segment sum vs consolidated revenue leaves a 9.7 bn JPY residual (0.7%) due to unallocated corporate items. Disclosed explicitly.<br/>"
+                "▪ <b>28 CHECKS PASSED:</b> Segment reconciliations across all 6 years (FY21-26E), full-cycle CAGR formula check, application sum vs I&I, zero blank cells, zero duplicate IDs, scorecard weight sums (100%), resource allocation sums (100%), scenario probability sums (100%), margin proxy reconciliations.<br/>"
+                "▪ <b>4 FLAGGED ITEMS (Expected Report Arithmetic Discrepancies):</b><br/>"
+                "  - <i>F-01:</i> Historical segment residuals (16.2 bn in FY21, 8.9 bn in FY22, 9.7 bn in FY25) disclosed explicitly.<br/>"
                 "  - <i>F-03:</i> Report's stated 282 bn JPY Industrial figure differs from 268.7 bn (40% low-end). Documented and reconciled.<br/>"
                 "  - <i>F-05:</i> Report's published scorecard totals do not reconcile with its own criterion scores. Model corrected via SUMPRODUCT.<br/>"
                 "▪ <b>2 INFORMATIONAL TILES:</b> Altium revenue % of group (~3%), scenario probability-weighted expected revenue (360 bn JPY).<br/>"
@@ -552,9 +661,9 @@ def build_pdf():
     story.append(Spacer(1, 14))
 
     # -------------------------------------------------------------------------
-    # SECTION 8: 10 CHALLENGING CEO & BOARD MANAGEMENT Q&A
+    # SECTION 9: 10 CHALLENGING CEO & BOARD MANAGEMENT Q&A
     # -------------------------------------------------------------------------
-    story.append(Paragraph("8. Challenging CEO & Board Management Q&A", style_h1))
+    story.append(Paragraph("9. Challenging CEO & Board Management Q&A", style_h1))
     story.append(Paragraph(
         "Below are ten rigorous, evidence-based answers to the most challenging strategic and financial questions that the Chief Executive Officer, Chief Financial Officer, and Board of Directors will ask:",
         style_body

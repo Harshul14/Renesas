@@ -17,7 +17,7 @@ DGREEN, DRED = "00703C", "B42318"
 FONT = "Calibri"
 
 APPS = ["Automotive", "Industrial", "Consumer", "IoT"]
-YEARS = ["FY2023 (A)", "FY2024 (A)", "FY2025 (A)", "FY2026E (est.)"]
+YEARS = ["FY2021 (A)", "FY2022 (A)", "FY2023 (A)", "FY2024 (A)", "FY2025 (A)", "FY2026E (est.)"]
 
 thin = Side(style="thin", color="BFBFBF")
 BORDER = Border(left=thin, right=thin, top=thin, bottom=thin)
